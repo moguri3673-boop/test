@@ -44,22 +44,36 @@ export function StrollerDashboard() {
   const setMaxDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const sendHm10Command = useCallback(
-    async (command: string) => {
-      if (!bluetoothState.isConnected) return;
-      if (
-        bluetoothState.isHm10Mode &&
-        !isHm10SupportedCommand(command)
-      ) {
-        return;
-      }
-      await bluetoothActions.sendCommand(command);
-    },
-    [
-      bluetoothState.isConnected,
-      bluetoothState.isHm10Mode,
-      bluetoothActions,
-    ]
-  );
+  async (command: string) => {
+    console.log("sendHm10Command 들어옴:", JSON.stringify(command));
+    console.log("연결 상태:", bluetoothState.isConnected);
+    console.log("HM-10 모드:", bluetoothState.isHm10Mode);
+
+    if (!bluetoothState.isConnected) {
+      console.warn("전송 중단: 블루투스 연결 안 됨");
+      return;
+    }
+
+    if (
+      bluetoothState.isHm10Mode &&
+      !isHm10SupportedCommand(command)
+    ) {
+      console.warn("전송 중단: HM-10에서 지원하지 않는 명령:", JSON.stringify(command));
+      return;
+    }
+
+    console.log("sendCommand 호출 직전:", JSON.stringify(command));
+
+    await bluetoothActions.sendCommand(command);
+
+    console.log("sendCommand 완료:", JSON.stringify(command));
+  },
+  [
+    bluetoothState.isConnected,
+    bluetoothState.isHm10Mode,
+    bluetoothActions,
+  ]
+);
 
   // 연결 안됐을 때 보여줄 기본값
   const displayTemperature = bluetoothState.isConnected
