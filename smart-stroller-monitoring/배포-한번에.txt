@@ -1,0 +1,17 @@
+■ 한 번에 배포 (복사 1줄만)
+
+PowerShell 창에서 (PS 로 시작하는 창):
+
+    cd C:\Users\a\Desktop\smart-stroller-monitoring; powershell -NoProfile -ExecutionPolicy Bypass -File .\deploy-prod.ps1
+
+또는 탐색기에서 "배포-한번에.cmd" 더블클릭 (CMD/PowerShell 구분 없음)
+
+또는 PowerShell:
+
+    cd C:\Users\a\Desktop\smart-stroller-monitoring
+    .\배포-한번에.cmd
+
+■ 주의: Set-ExecutionPolicy 와 .\deploy-prod.ps1 은 반드시 줄을 나누거나 세미콜론(;)으로 구분
+
+    잘못: Bypass.\deploy-prod.ps1
+    맞음: Bypass; .\deploy-prod.ps1
