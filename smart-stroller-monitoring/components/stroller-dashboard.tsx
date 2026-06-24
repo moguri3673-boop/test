@@ -7,6 +7,7 @@ import { ModeSwitch } from "./mode-switch";
 import { ControlButtons } from "./control-buttons";
 import { TemperatureSlider } from "./temperature-slider";
 import { useBluetooth } from "@/hooks/use-bluetooth";
+import { log } from "console";
 
 // 명령어 정의 (하드웨어 프로토콜에 맞게 수정)
 const COMMANDS = {
@@ -23,6 +24,8 @@ const COMMANDS = {
 /** 우노+HM-10 펌웨어가 실제로 처리하는 명령만 BLE로 전송 */
 function isHm10SupportedCommand(command: string): boolean {
   const c = command.trim();
+
+  console.log("c: ", c);
   return c.startsWith("SET_MIN:") || c.startsWith("SET_MAX:");
 }
 
