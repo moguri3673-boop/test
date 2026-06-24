@@ -26,7 +26,16 @@ function isHm10SupportedCommand(command: string): boolean {
   const c = command.trim();
 
   console.log("c: ", c);
-  return c.startsWith("SET_MIN:") || c.startsWith("SET_MAX:");
+  return (
+    c.startsWith("SET_MIN:") ||
+    c.startsWith("SET_MAX:") ||
+    c === "FAN:ON" ||
+    c === "FAN:OFF" ||
+    c === "HEATER:ON" ||
+    c === "HEATER:OFF" ||
+    c === "MODE:AUTO" ||
+    c === "MODE:MANUAL"
+  );
 }
 
 export function StrollerDashboard() {
@@ -62,11 +71,13 @@ export function StrollerDashboard() {
       return;
     }
 
-    console.log("sendCommand 호출 직전:", JSON.stringify(command));
+    const c = command.trim();
 
-    await bluetoothActions.sendCommand(command);
+    console.log("sendCommand 호출 직전:", JSON.stringify(c));
 
-    console.log("sendCommand 완료:", JSON.stringify(command));
+    await bluetoothActions.sendCommand(c);
+
+    console.log("sendCommand 완료:", JSON.stringify(c));
   },
   [
     bluetoothState.isConnected,
